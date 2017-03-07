@@ -1,0 +1,83 @@
+<section class="content-header">
+    <h1>
+        汇率设定
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="javascript:void(0);"><i class="fa fa-cubes"></i> 参数配置</a></li>
+        <li class="active">汇率设定</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-primary ws-query">
+                <div class="box-body">
+                    <form class="form-inline" id="ws-task" role="form">
+                        <div class="form-group">
+                            <div class="input-group input-daterange">
+                                <span class="input-group-addon" style="border-width: 1px;">年度：</span>
+                                <input class="form-control" type="text" name="date_years"
+                                       onchange="javascript:webSquid.pageModule('setting/rate').yearSet(this)"
+                                       placeholder="年度"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="background-color:#eeeeee">选择月份：</span>
+                                <button type="button" class="btn btn-sm  btn-default" value="01"
+                                        onclick="javascript:webSquid.pageModule('setting/rate').rateSet(this)">1月
+                                </button>
+                                <button type="button" class="btn btn-sm  btn-default" value="02"
+                                        onclick="javascript:webSquid.pageModule('setting/rate').rateSet(this)">2月
+                                </button>
+                                <button type="button" class="btn btn-sm  btn-default" value="03"
+                                        onclick="javascript:webSquid.pageModule('setting/rate').rateSet(this)">3月
+                                </button>
+                                <button type="button" class="btn btn-sm  btn-default" value="04"
+                                        onclick="javascript:webSquid.pageModule('setting/rate').rateSet(this)">4月
+                                </button>
+                                <button type="button" class="btn btn-sm  btn-default" value="05"
+                                        onclick="javascript:webSquid.pageModule('setting/rate').rateSet(this)">5月
+                                </button>
+                                <button type="button" class="btn btn-sm  btn-default" value="06"
+                                        onclick="javascript:webSquid.pageModule('setting/rate').rateSet(this)">6月
+                                </button>
+                                <button type="button" class="btn btn-sm  btn-default" value="07"
+                                        onclick="javascript:webSquid.pageModule('setting/rate').rateSet(this)">7月
+                                </button>
+                                <button type="button" class="btn btn-sm  btn-default" value="08"
+                                        onclick="javascript:webSquid.pageModule('setting/rate').rateSet(this)">8月
+                                </button>
+                                <button type="button" class="btn btn-sm  btn-default" value="09"
+                                        onclick="javascript:webSquid.pageModule('setting/rate').rateSet(this)">9月
+                                </button>
+                                <button type="button" class="btn btn-sm  btn-default" value="10"
+                                        onclick="javascript:webSquid.pageModule('setting/rate').rateSet(this)">10月
+                                </button>
+                                <button type="button" class="btn btn-sm  btn-default" value="11"
+                                        onclick="javascript:webSquid.pageModule('setting/rate').rateSet(this)">11月
+                                </button>
+                                <button type="button" class="btn btn-sm  btn-default" value="12"
+                                        onclick="javascript:webSquid.pageModule('setting/rate').rateSet(this)">12月
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="box-footer">
+                    <div class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="query-rate-table"
+                                       class="table table-striped table-bordered table-hover table-condensed"
+                                       width="100%">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

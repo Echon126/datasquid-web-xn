@@ -1,0 +1,54 @@
+<div class="panel  panel-info" xmlns="http://www.w3.org/1999/html">
+
+    <form id="ws-host" role="form" class="panel-body">
+        <div class="form-group form-inline">
+            <div class="input-group">
+                <span class="input-group-addon">权限组名称：</span>
+                <input type="text" class="form-control" id="rule_name" name="name" placeholder="名称" maxlength="20"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <textarea class="form-control" name="description" placeholder="描述" maxlength="200"></textarea>
+        </div>
+        <div class="form-group rule">
+            <div id="check"></div>
+        <!--    <fieldset style='border:1px solid silver;'>
+                <legend style='border-bottom:0px solid silver;width: auto;margin-left: 48px; padding:10px;font-size:18px;font-weight:normal;margin-bottom: auto'>
+                     <input type="checkbox" name="rule_name" onclick="webSquid.pageModule('auth/ruleEdit').isCheckAll(this)"/><label name="check"></label>
+                </legend>
+                <div class="rules">
+                    <input type="checkbox" name="rules_name"  style="margin-left:10px"/>
+                    <label name="checks"   style="margin-left:15px;font-size: 14px;font-weight:normal">
+                </label>
+                </div>
+            </fieldset>-->
+        </div>
+        <div class="form-group pull-right">
+            <button class="btn btn-sm btn-success" type="button" id="ws-page-apply" data-toggle="tooltip-disabled"
+                    title="提交保存">
+                <i class="fa fa-check"></i>
+            </button>
+            <button class="btn btn-sm btn-warning" type="button" id="ws-page-back" data-toggle="tooltip-disabled"
+                    title="放弃并返回">
+                <i class="fa fa-reply"></i>
+            </button>
+        </div>
+        <div class="clearfix"></div>
+    </form>
+
+    <div id="ws-work" class="panel-body row hide">
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div id="ws-workflow" class="panel-body">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="panel panel-default">
+                <div id="ws-property" class="panel-body">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

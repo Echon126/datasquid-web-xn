@@ -1,0 +1,155 @@
+.graph_title {
+    width: 100%;
+    background-color: #9d9d9d;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    display: inline-block;
+    font-family: "Source Sans Pro",sans-serif;
+    font-size: 18px;
+    line-height: 1;
+}
+
+.graph_wTitle {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.graph_wForm {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px
+}
+
+.th_title {
+    text-align: center;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bolder;
+    border: solid 2px #fff
+}
+
+.tr_title {
+    height: 35px;
+    background-color: #50BBAB;
+    border: solid 3px #fff
+}
+
+.tr_content {
+    height: 40px;
+    background-color: #E4F3EF;
+    border: solid 3px #fff
+}
+
+.td_content {
+    text-align: center;
+    font-size: 15px;
+    font-weight: bolder;
+    border: solid 2px #fff
+}
+
+.time_area {
+    background-color: #3BA0EC;
+    color: #fff;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.left_lib {
+    float: left;
+    background: url('../image/icon/lib1.png') center no-repeat;
+    background-size: cover;
+    line-height: 79px;
+    width: 50%;
+    color: #fff;
+    font-weight: bolder;
+    font-size: 14px;
+    padding-left: 2px
+
+}
+
+.right_lib {
+    float: right;
+    background: url('../image/icon/lib2.png') center no-repeat;
+    background-size: cover;
+    line-height: 79px;
+    width: 50%;
+    color: #fff;
+    font-weight: bolder;
+    font-size: 14px;
+    padding-left: 2px
+}
+
+.th_title_p2 {
+    color: #C35C59;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bolder;
+    background-color: #fff;
+    border: solid 2px blue
+}
+
+.td_content_tab1 {
+    background: url('../image/icon/tab1.png') center no-repeat;
+    background-size: cover;
+    border: solid 2px #59A2FA;
+}
+
+.td_content_tab2 {
+    background: url('../image/icon/tab2.png') center no-repeat;
+    background-size: cover;
+    border: solid 2px #59A2FA;
+}
+
+.td_content_tab3 {
+    background: url('../image/icon/tab3.png') center no-repeat;
+    background-size: cover;
+    border: solid 2px #59A2FA;
+}
+
+.td_content_tab4 {
+    background: url('../image/icon/tab4.png') center no-repeat;
+    background-size: cover;
+    border: solid 2px #59A2FA;
+}
+
+.td_content_tab5 {
+    background: url('../image/icon/tab5.png') center no-repeat;
+    background-size: cover;
+    border: solid 2px #59A2FA;
+}
+
+.td_content_tab6 {
+    background: url('../image/icon/tab6.png') center no-repeat;
+    background-size: cover;
+    border: solid 2px #59A2FA;
+}
+
+.td_content_tab7 {
+    background: url('../image/icon/tab7.png') center no-repeat;
+    background-size: cover;
+    border: solid 2px #59A2FA;
+}
+
+.td_content_tab8 {
+    background: url('../image/icon/tab8.png') center no-repeat;
+    background-size: cover;
+    border: solid 2px #59A2FA;
+}
+
+.td_left_title_p2 {
+    text-align: center;
+    font-size: 14px;
+    font-weight: bolder
+}
+
+.td_content_span_left {
+    float: left;
+    margin-left: 15px
+}
+
+.td_content_span_right {
+    float: right;
+    margin-right: 15px
+}

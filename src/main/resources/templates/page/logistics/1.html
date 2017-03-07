@@ -1,0 +1,170 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        物流追踪查询
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="javascript:void(0);"><i class="fa fa-cubes"></i> 物流追踪查询</a></li>
+        <li class="active" id="title">进口查询</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-primary ws-query">
+                <div class="box-body">
+                    <div class="form-inline">
+                    <div class="form-group form-inline">
+                        <div class="input-group">
+                            <span class="input-group-addon">订单号：</span>
+                            <input id="orderNum" type="text" class="form-control" name="order_no"
+                                   placeholder="订单号"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button id="btnQuery" class="btn btn-primary" type="button" data-toggle="tooltip-disabled"
+                                title="查询"><i class="fa fa-search"> 查询</i></button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-12">
+            <div class="box box-default">
+
+                <div class="box-header">物流追踪环节时间</div>
+                <div class="box-body row">
+                    <div class="col-md-8" id="resultPanel">
+                        <div id="noMessage" class="">
+
+                        </div>
+
+                        <ul class="timeline">
+                            <li>
+                                <i class="fa fa-shopping-cart bg-aqua-active"></i>
+
+                                <div class="timeline-item">
+                                    <span class="time pull-left"><i class="fa fa-clock-o"></i> <span
+                                            id="xdzf_min"></span></span>
+                                    <h3 class="timeline-header">下单支付</h3>
+                                    <div class="timeline-body">
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa fa-truck bg-green-active"></i>
+
+                                <div class="timeline-item">
+                                    <span class="time pull-left"><i class="fa fa-clock-o"></i>  <span
+                                            id="ydrc_min"></span></span>
+                                    <h3 class="timeline-header">物流到港</h3>
+                                    <div class="timeline-body">
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa fa-file-text-o bg-gray-active"></i>
+
+                                <div class="timeline-item">
+                                    <span class="time pull-left"><i class="fa fa-clock-o"></i>  <span
+                                            id="hgsb_min"></span></span>
+                                    <h3 class="timeline-header">清单申报</h3>
+                                    <div class="timeline-body">
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa fa-newspaper-o bg-green-active"></i>
+
+                                <div class="timeline-item">
+                                    <span class="time pull-left"><i class="fa fa-clock-o"></i> <span
+                                            id="hgfx_min"></span></span>
+                                    <h3 class="timeline-header">海关单证放行</h3>
+                                    <div class="timeline-body">
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa  fa-university bg-gray-active"></i>
+
+                                <div class="timeline-item">
+                                    <span class="time pull-left"><i class="fa fa-clock-o"></i> <span
+                                            id="gjsb_min"></span></span>
+                                    <h3 class="timeline-header">国检审单</h3>
+                                    <div class="timeline-body">
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa  fa-university bg-green-active"></i>
+
+                                <div class="timeline-item">
+                                    <span class="time pull-left"><i class="fa fa-clock-o"></i> <span
+                                            id="gjfx_min"></span></span>
+                                    <h3 class="timeline-header">国检单证放行</h3>
+                                    <div class="timeline-body">
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa fa-gears bg-teal-active"></i>
+
+                                <div class="timeline-item">
+                                    <span class="time pull-left"><i class="fa fa-clock-o"></i> <span
+                                            id="fjfx_min"></span></span>
+                                    <h3 class="timeline-header">分拣放行时间</h3>
+                                    <div class="timeline-body">
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa fa-file-text bg-gray-active"></i>
+
+                                <div class="timeline-item">
+                                    <span class="time pull-left"><i class="fa fa-clock-o"></i> <span
+                                            id="hfsb_min"></span></span>
+                                    <h3 class="timeline-header">核放单申报</h3>
+                                    <div class="timeline-body">
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa fa-file-text bg-green-active"></i>
+
+                                <div class="timeline-item">
+                                    <span class="time pull-left"><i class="fa fa-clock-o"></i> <span
+                                            id="hfcq_min"></span></span>
+                                    <h3 class="timeline-header">核放单审批通过</h3>
+                                    <div class="timeline-body">
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa fa-thumbs-o-up bg-blue"></i>
+
+                                <div class="timeline-item">
+                                    <span class="time pull-left"><i class="fa fa-clock-o"></i> <span
+                                            id="tuotou_min"></span></span>
+                                    <h3 class="timeline-header">派送妥投</h3>
+                                    <div class="timeline-body">
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- /.row -->
+
+</section>
+<!-- /.content -->

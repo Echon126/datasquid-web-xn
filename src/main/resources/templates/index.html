@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <base th:href="${basePath}"/>
+    <title th:text="${pageName}"></title>
+
+    <meta th:include="fragments/resource :: head-login" th:remove="tag"/>
+    <link rel="stylesheet" href="css/login.css"/>
+</head>
+<body>
+<div class="version">v1.1-beta</div>
+<div class="wrap">
+
+    <div class="side">
+        <div class="login">
+
+            <div class="title">
+                <h1 th:text="${pageName}"></h1>
+                <h5>XIAONENG JIANCE XITONG</h5>
+            </div>
+
+            <form role="form">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        <input type="text" class="form-control" placeholder="用户名称" name="loginName"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                        <input type="password" class="form-control" placeholder="登录密码" name="loginPwd"/>
+                    </div>
+                </div>
+
+                <div class="form-group hide">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="验证码" name="vCode"/>
+                        <a class="input-group-addon" href="javascript:void(0);" id="vCodeLink">
+                            <img width="100" height="20"/></a>
+                    </div>
+                </div>
+
+                <div class="form-group hide">
+                    <div class="input-group">
+                        <input type="checkbox" name="savePW" id="savePW"/>
+                        <label for="savePW">保存密码</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-success btn-block" type="button" id="loginBtn">登 录</button>
+                </div>
+            </form>
+            <div class="bg"></div>
+        </div>
+    </div>
+
+    <img id="loginBackground" src="image/login_bg.jpg" />
+</div>
+
+<div th:replace="fragments/resource :: scripts-login"></div>
+<div th:replace="fragments/dialogs :: dialog-alert"></div>
+</body>
+</html>

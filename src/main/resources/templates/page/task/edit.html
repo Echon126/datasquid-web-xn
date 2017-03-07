@@ -1,0 +1,96 @@
+<div class="panel  panel-info">
+
+    <form id="ws-task" role="form" class="form-inline panel-heading">
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">执行条件</span>
+                <div class="radio form-control">
+                    <label><input type="radio" name="trigger_type" value="1" data-toggle="tooltip-disabled"
+                                  title="按照指定的时间间隔重复执行"
+                                  checked="checked"/> 时间</label>
+                    <label><input type="radio" name="trigger_type" value="2" data-toggle="tooltip-disabled"
+                                  title="当数据源有变化时执行"/>
+                        数据</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="name" placeholder="任务名称" maxlength="50"/>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">间隔时间</span>
+                <input type="text" class="form-control" name="trigger_interval" data-toggle="tooltip-disabled"
+                       title="定义多长时间执行/检查一次，单位是秒" value="0" size="5" maxlength="10"/>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">开始日期</span>
+                <input type="text" class="form-control" name="start_time" data-toggle="tooltip-disabled"
+                       title="定义任务何时开始" value="" size="9"/>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon">终止日期</span>
+                <input type="text" class="form-control" name="stop_time" data-toggle="tooltip-disabled"
+                       title="定义任务何时终止，为0则永不终止" value="0" size="9"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">选项</span>
+                <div class="radio form-control">
+                    <label><input type="checkbox" name="options" value="1" data-toggle="tooltip-disabled"
+                                  title="单位时间内最多只能有一个任务实例运行"/> 独占</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="radio form-control">
+                <label><input type="checkbox" name="status" value="1" data-toggle="tooltip-disabled"
+                              title="是否启用"/> 启用</label>
+            </div>
+        </div>
+        <div class="form-group edit-buttons">
+            <button class="btn btn-sm btn-info" type="button" id="ws-load-datasource" data-toggle="tooltip-disabled"
+                    title="装载数据源">
+                <i class="fa fa-database"></i>
+            </button>
+            <button class="btn btn-sm btn-info hide" type="button" id="ws-load-script" data-toggle="tooltip-disabled"
+                    title="载入脚本">
+                <i class="fa fa-sign-in"></i>
+            </button>
+            <button class="btn btn-sm btn-primary" type="button" id="ws-new-script" data-toggle="tooltip-disabled"
+                    title="新建脚本">
+                <i class="fa fa-plus-square"></i>
+            </button>
+        </div>
+        <div class="form-group pull-right">
+            <button class="btn btn-sm btn-success" type="button" id="ws-page-apply" data-toggle="tooltip-disabled"
+                    title="提交保存">
+                <i class="fa fa-check"></i>
+            </button>
+            <button class="btn btn-sm btn-warning" type="button" id="ws-page-back" data-toggle="tooltip-disabled"
+                    title="返回">
+                <i class="fa fa-reply"></i>
+            </button>
+        </div>
+        <div class="clearfix">
+            &nbsp;
+        </div>
+    </form>
+
+    <div class="panel-body row">
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div id="ws-workflow" class="panel-body">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="panel panel-default">
+                <div id="ws-property" class="panel-body">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

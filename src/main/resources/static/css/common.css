@@ -1,0 +1,42 @@
+.hide {
+    display: none;
+}
+
+textarea {
+    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+}
+
+#ws-nothing {
+    min-height: 500px;
+}
+
+table thead tr th {
+    text-align: center;
+    border-bottom: 1px solid #ccc !important;
+    background-color: #AFD7ED;
+}
+
+.table {
+    background-color: #E0FFFF !important;
+    text-align: center;
+}
+
+.dropdown-menu {
+    border: 1px solid #CCC9A8;
+}
+
+.box-body .form-group {
+    margin-bottom: 5px;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background: white;
+}
+
+.dataTables_wrapper {
+    text-align: left;
+}
+
+.tooltip-inner{
+    white-space: nowrap;
+}

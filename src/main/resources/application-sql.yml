@@ -1,0 +1,230 @@
+# 参数：?condition?  以页面传入的 ie 和 sign 获取条件并替换
+# 参数：?start?   以页面传入的 开始时间start（默认为当前月） 替换
+# 参数：?end?     以页面传入的 结束时间end（默认为当前日） 替换
+# 参数：?1,?2...  以页面传入的 param[]参数数组 替换对应的 参数
+sqlMap:
+
+  #大屏1 饼图2 进口消费者性别比例
+  screen1_pie2: "select fumal, count(1) as value from (select mod(substr(t.payer_id_number, length(t.payer_id_number) - 1, 1), 2) as fumal from ecssent.ceb2_pay_head t where app_time >= ?start?) x group by fumal"
+  #大屏1 柱状图 进口商品大类交易量柱状图
+  screen1_bar: "SELECT * FROM (SELECT substr(t.goods_type, 0, 8) AS gcode, count(1) AS value FROM product_info t, order_info o WHERE t.relation_no = o.RELATION_NO AND o.app_time >= ?start? and o.sys_type='WT' GROUP BY substr(t.goods_type, 0, 8) ORDER BY value DESC) WHERE rownum < 100"
+  #大屏1 饼图1 进口商品大类交易额饼图
+  screen1_pie1: "SELECT * FROM (SELECT substr(t.goods_type, 0, 2) AS gcode, sum(t.TOTAL_PRICE)     AS value FROM product_info t, order_info o WHERE t.relation_no = o.RELATION_NO AND o.app_time >= ?start? and o.sys_type='WT' GROUP BY substr(t.goods_type, 0, 2) ORDER BY value DESC) WHERE rownum < 6"
+  #大屏1 进口订单量
+  screen1_iCount: "select count(1) as value from order_info t where t.sys_type = 'WT' and app_time >= ?start?"
+  #大屏1 出口订单量
+  screen1_eCount: "select count(1) as value from order_info t where t.sys_type = 'MH' and stime >= ?start?"
+  #大屏1 进口额度
+  screen1_iMoney: "select sum(TOTAL_PRICE) as total from order_info where sys_type = 'WT' and app_time >= ?start?"
+  #大屏1 出口额度
+  screen1_eMoney: "select SUM(TOTAL_PRICE) as total from order_info where sys_type = 'MH' and stime >= ?start?"
+  #大屏1 美华当月订单数
+  screen1_orders_MH: "select count(1) as value from mhckdb.tb_bonded_import_order t where stime >= ?start?"
+  #大屏1 物通当月订单数
+  screen1_orders_WT: "select count(1) as value from ecssent.ceb2_ord_head t where  t.app_time >= ?start?"
+  #大屏1 美华电商企业订单情况
+  screen1_DSOrder_MH: "select * from (SELECT q.qiye_name AS name, count(1) AS value FROM qiye_info q, order_info t WHERE q.qiye_id = t.cbe_code AND q.QIYE_TYPE = 'DS' AND t.sys_type='MH' AND t.stime >= ?start? GROUP BY q.qiye_name ORDER BY value DESC) where rownum<6"
+  #大屏1 物通电商企业订单情况
+  screen1_DSOrder_WT: "select * from (SELECT q.qiye_name AS name, count(1) AS value FROM qiye_info q, order_info t WHERE q.qiye_id = t.cbe_code AND q.QIYE_TYPE = 'DS' AND t.sys_type='WT' AND t.app_time >= ?start? GROUP BY q.qiye_name ORDER BY value DESC) where rownum<6"
+  #大屏1 美华物流企业订单情况
+  screen1_WLOrder_MH: "select * from (SELECT q.qiye_name AS name, count(1) AS value FROM qiye_info q, order_info t WHERE q.qiye_id = t.cbe_code AND q.QIYE_TYPE = 'WL' AND t.sys_type='MH' AND t.stime >= ?start? GROUP BY q.qiye_name ORDER BY value DESC) where rownum<6"
+  #大屏1 物通物流企业订单情况
+  screen1_WLOrder_WT: "select * from (SELECT q.qiye_name AS name, count(1) AS value FROM qiye_info q, order_info t WHERE q.qiye_id = t.cbe_code AND q.QIYE_TYPE = 'WL' AND t.sys_type='WT' AND t.app_time >= ?start? GROUP BY q.qiye_name ORDER BY value DESC) where rownum<6"
+  #大屏1 左下柱状图2 关区名称
+  screen1_bar2_query1: "select param_code as code, param_name as name from sys_param t where t.type_id = 'GQ_CODE'"
+  #大屏1 左下柱状图2 出口关区订单数量
+  screen1_bar2_query2: "select t.customs_code as name,count(1) as value from order_info t where t.stime >= ?start? and t.sys_type='MH' group by t.customs_code"
+  #大屏1 左下柱状图2 进口关区订单数量
+  screen1_bar2_query3: "select t.customs_code as name,count(1) as value from order_info t where t.app_time >= ?start? and t.sys_type='WT' group by t.customs_code"
+  #大屏1 地图
+  screen1_map: "SELECT * FROM (SELECT substr(t.coll_address, 0, 4) AS name, sum(t.total_price) AS value FROM order_info t WHERE app_time >= to_date('2017-1-1', 'yyyy-MM-dd') and sys_type='WT' GROUP BY substr(t.coll_address, 0, 4) ORDER BY VALUE DESC) WHERE value > 100000"
+  #大屏1 饼图3
+  screen1_pie3: "select * from (select t.barcode as name, count(1) as value from mhckdb.tb_bonded_import_order_product t where stime >= ?start? group by t.barcode order by value desc) where rownum < 7"
+  #大屏1 出口折线图
+  screen1_line_e: "SELECT count(1) AS value, to_char(t.app_time, 'yyyy-MM') AS name FROM order_info t WHERE t.stime >= ?start? and t.sys_type='MH' GROUP BY to_char(t.app_time, 'yyyy-MM') ORDER BY name"
+  #大屏1 进口折线图
+  screen1_line_i: "SELECT count(1) AS value, to_char(t.app_time, 'yyyy-MM') AS name FROM order_info t WHERE t.app_time >= ?start? and t.sys_type='WT' GROUP BY to_char(t.app_time, 'yyyy-MM') ORDER BY name"
+
+
+  #大屏2 物通总金额
+  screen2_money_WT: "select sum(total_price) as total from order_info where sys_type='WT' and app_time >= ?start?"
+  #大屏2 美华总金额
+  screen2_money_MH: "select sum(total_price) as total from order_info where sys_type='MH' and stime >= ?start?"
+  #大屏2 世界地图
+  screen2_map: "SELECT * FROM (SELECT t.country AS name, count(1) AS value FROM order_info t WHERE t.sys_type='MH' and t.stime >= ?start? GROUP BY t.country ORDER BY VALUE DESC) WHERE rownum < 10"
+  #大屏2 柱状图
+  screen2_bar: "SELECT * FROM (SELECT t.country AS name, count(1) AS value FROM order_info t WHERE t.sys_type='MH' and t.stime >= ?start? GROUP BY t.country ORDER BY VALUE DESC) WHERE rownum < 10"
+  #大屏2 线形图 海关
+  screen2_line_HG: "SELECT to_number(to_char(HGFX_MAX, 'HH24')) AS hour_name, count(1) as total FROM  ALL_NODE_CALC_TIME_MH where HGFX_MAX >= ?start? group by to_number(to_char(HGFX_MAX, 'HH24')) order by hour_name desc"
+  #大屏2 线形图 国检
+  screen2_line_GJ: "SELECT to_number(to_char(GJFX_MAX, 'HH24')) AS hour_name, count(1) as total FROM  ALL_NODE_CALC_TIME_MH where GJFX_MAX >= ?start? group by to_number(to_char(GJFX_MAX, 'HH24')) order by hour_name desc"
+
+
+
+  #柱状图1 数据查询
+  c1_bar1: "select order_no, gjwl_time, qysb_time, hgtg_time, gjtg_time, cyfj_time, shcq_time, gnwl_time,all_time from all_node_calc_time_wt t where t.xdzf_min >= ?start?    and t.xdzf_max <= ?end? and  ?condition? rownum <= 100 order by hgfx_max desc"
+  c1_bar1_e: "select * from all_node_calc_time_mh t where t.xdzf_min >= ?start?    and t.xdzf_max <= ?end? and  ?condition? rownum <= 100 order by hgfx_max desc"
+  #表格 数据查询
+  c1_table: "select order_no, gjwl_time, qysb_time, hgtg_time, gjtg_time, cyfj_time, shcq_time, gnwl_time,all_time   from all_node_calc_time_WT t  where t.xdzf_min >= ?start?    and t.xdzf_max <= ?end? and order_no like '?1%' and  ?condition? rownum <= 100  order by hgfx_max desc"
+  c1_table_e: "select * from all_node_calc_time_mh t  where t.xdzf_min >= ?start?    and t.xdzf_max <= ?end? and orderno like '?1%' and  ?condition? rownum <= 100  order by hgfx_max desc"
+  #柱状图2 详情 数据查询
+  c1_bar2: "select * from all_node_calc_time_wt t where ?condition? order_no='?1' and rownum < 2"
+  c1_bar2_e: "select * from all_node_calc_time_mh t where ?condition? orderno='?1' and rownum < 2"
+
+  #柱状图、饼图 数据查询
+  c2_barpie: "select avg(all_time) as all_time,avg(gjwl_time) as gjwl_time,avg(qysb_time) as qysb_time,avg(hgtg_time) as hgtg_time,avg(gjtg_time) as gjtg_time,avg(cyfj_time) as cyfj_time,avg(shcq_time) as shcq_time,avg(gnwl_time) as gnwl_time from all_node_calc_time_wt t where ?condition? xdzf_min >= ?start? and xdzf_max <= ?end?"
+  c2_barpie_e: "select avg(all_time) as all_time,avg(dssb_time) as dssb_time,avg(qysb_time) as qysb_time,avg(hgtg_time) as hgtg_time,avg(gjtg_time) as gjtg_time,avg(zjcg_time) as zjcg_time from all_node_calc_time_mh t where ?condition? xdzf_min >= ?start? and xdzf_max <= ?end?"
+
+  #表格 数据查询
+  c2_table: "SELECT avg(all_time)  AS all_atime, avg(gjwl_time) AS il_atime, avg(qysb_time) AS er_atime, avg(hgtg_time) AS cc_atime, avg(gjtg_time) AS cr_atime, avg(cyfj_time) AS cs_atime, avg(shcq_time) AS ca_atime, avg(gnwl_time) AS dl_atime FROM all_node_calc_time_wt t WHERE ?condition? xdzf_min >= ?start? AND xdzf_min <= ?end?"
+  c2_table_e: "SELECT avg(all_time)  AS all_atime, avg(dssb_time) AS il_atime, avg(qysb_time) AS er_atime, avg(hgtg_time) AS cc_atime, avg(gjtg_time) AS cr_atime, avg(zjcg_time) AS cs_atime FROM all_node_calc_time_mh t WHERE ?condition? xdzf_min >= ?start? AND xdzf_min <= ?end?"
+
+  #柱状图、表格 最长用时 数据查询
+  c3_bartable_long: "select * from (select '最长用时' as link, order_no,gjwl_time,qysb_time,hgtg_time,gjtg_time,cyfj_time,shcq_time,gnwl_time,all_time from all_node_calc_time_wt  where ?condition? all_time is not null and xdzf_min >= ?start? and xdzf_min <= ?end? order by all_time desc ) where rownum<=1"
+  c3_bartable_long_e: "select * from (select '最长用时' as link, t.* from all_node_calc_time_mh t where ?condition? all_time is not null and xdzf_min >= ?start? and xdzf_min <= ?end? order by all_time desc ) where rownum<=1"
+  #柱状图、表格 最短用时 数据查询
+  c3_bartable_short: "select * from (select '最短用时' as link, order_no,gjwl_time,qysb_time,hgtg_time,gjtg_time,cyfj_time,shcq_time,gnwl_time,all_time from all_node_calc_time_wt  where ?condition? all_time is not null and xdzf_min >= ?start? and xdzf_min <= ?end? order by all_time asc ) where rownum<=1"
+  c3_bartable_short_e: "select * from (select '最短用时' as link, t.* from all_node_calc_time_mh t where ?condition? all_time is not null and xdzf_min >= ?start? and xdzf_min <= ?end? order by all_time asc ) where rownum<=1"
+  #订单详情查询
+  c3_detail: "select *  from all_node_calc_time_wt where ?condition? order_no = '?1'"
+  c3_detail_e: "select *  from all_node_calc_time_mh where ?condition? orderno = '?1'"
+
+  #折线图 数据查询
+  c4_line: "select * from (select hgtg_time from all_node_calc_time_wt where ?condition? hgtg_time is not null and hgfx_min >= ?start? and hgfx_min <= ?end? order by xdzf_min desc) where rownum <= 100"
+  c4_line_e: "select * from (select hgtg_time from all_node_calc_time_mh where ?condition? hgtg_time is not null and hgfx_min >= ?start? and hgfx_min <= ?end? order by xdzf_min desc) where rownum <= 100"
+  #柱线图 数据查询
+  c4_barline: "select ltrim(substr(to_char(hgfx_min, 'yyyy-mm-dd'), 9, 2), '0') as day, avg(hgtg_time) as time, 'TG' as type from all_node_calc_time_wt where ?condition?  hgcy = '0' and  hgtg_time is not null and hgfx_min >= to_date('?start?' || ' 00:00:00', 'yyyy-MM-dd hh24:mi:ss') and hgfx_min <= to_date('?end?' || ' 23:59:59', 'yyyy-MM-dd hh24:mi:ss') group by to_char(hgfx_min, 'yyyy-mm-dd') union select ltrim(substr(to_char(hgfx_min, 'yyyy-mm-dd'), 9, 2), '0') as day, avg(hgtg_time) as hgcy_time,'CY' as type from all_node_calc_time_wt where  ?condition?   hgcy = '1' and hgtg_time is not null and hgfx_min >= to_date('?start?' || ' 00:00:00', 'yyyy-MM-dd hh24:mi:ss') and hgfx_min <=  to_date('?end?' || ' 23:59:59', 'yyyy-MM-dd hh24:mi:ss')  group by to_char(hgfx_min, 'yyyy-mm-dd')"
+  c4_barline_e: "select ltrim(substr(to_char(hgfx_min, 'yyyy-mm-dd'), 9, 2), '0') as day, avg(hgtg_time) as time, 'TG' as type from all_node_calc_time_mh where ?condition?  hgcy = '0' and  hgtg_time is not null and hgfx_min >= to_date('?start?' || ' 00:00:00', 'yyyy-MM-dd hh24:mi:ss') and hgfx_min <= to_date('?end?' || ' 23:59:59', 'yyyy-MM-dd hh24:mi:ss') group by to_char(hgfx_min, 'yyyy-mm-dd') union select ltrim(substr(to_char(hgfx_min, 'yyyy-mm-dd'), 9, 2), '0') as day, avg(hgtg_time) as hgcy_time,'CY' as type from all_node_calc_time_mh where  ?condition?   hgcy = '1' and hgtg_time is not null and hgfx_min >= to_date('?start?' || ' 00:00:00', 'yyyy-MM-dd hh24:mi:ss') and hgfx_min <=  to_date('?end?' || ' 23:59:59', 'yyyy-MM-dd hh24:mi:ss')  group by to_char(hgfx_min, 'yyyy-mm-dd')"
+  #饼图 数据查询
+  c4_pie: "select * from (select count(1) as hgfx from all_node_calc_time_wt tm where ?condition? tm.hgcy = '0' and tm.hgfx_max >= to_date('?start?'||' 00:00:00','yyyy-MM-dd hh24:mi:ss') and tm.hgfx_max <= to_date('?end?'||' 23:59:59','yyyy-MM-dd hh24:mi:ss') ) a,(select count(1)  as hgcy from all_node_calc_time_wt tm where ?condition? tm.hgcy = '1' and tm.hgfx_max >= to_date('?start?'||' 00:00:00','yyyy-MM-dd hh24:mi:ss') and tm.hgfx_max <= to_date('?end?'||' 23:59:59','yyyy-MM-dd hh24:mi:ss') ) b "
+  c4_pie_e: "select * from (select count(1) as hgfx from all_node_calc_time_mh tm where ?condition? tm.hgcy = '0' and tm.hgfx_max >= to_date('?start?'||' 00:00:00','yyyy-MM-dd hh24:mi:ss') and tm.hgfx_max <= to_date('?end?'||' 23:59:59','yyyy-MM-dd hh24:mi:ss') ) a,(select count(1)  as hgcy from all_node_calc_time_mh tm where ?condition? tm.hgcy = '1' and tm.hgfx_max >= to_date('?start?'||' 00:00:00','yyyy-MM-dd hh24:mi:ss') and tm.hgfx_max <= to_date('?end?'||' 23:59:59','yyyy-MM-dd hh24:mi:ss') ) b "
+
+  #折线图 数据查询
+  c5_line: "select * from (select gjtg_time from all_node_calc_time_wt where ?condition? gjtg_time is not null and gjfx_min >= ?start? and gjfx_min <= ?end? order by xdzf_min desc) where rownum <= 100"
+  c5_line_e: "select * from (select gjtg_time from all_node_calc_time_mh where ?condition? gjtg_time is not null and gjfx_min >= ?start? and gjfx_min <= ?end? order by xdzf_min desc) where rownum <= 100"
+  #柱线图 数据查询
+  c5_bar_line: "select ltrim(substr(to_char(gjfx_min, 'yyyy-mm-dd'), 9, 2), '0') as day, avg(gjtg_time) as time, 'TG' as type from all_node_calc_time_wt where ?condition?  gjcy = '0' and  gjtg_time is not null and gjfx_min >= to_date('?start?' || ' 00:00:00', 'yyyy-MM-dd hh24:mi:ss') and gjfx_min <= to_date('?end?' || ' 23:59:59', 'yyyy-MM-dd hh24:mi:ss') group by to_char(gjfx_min, 'yyyy-mm-dd') union select ltrim(substr(to_char(gjfx_min, 'yyyy-mm-dd'), 9, 2), '0') as day, avg(gjtg_time) as gjcy_time,'CY' as type from all_node_calc_time_wt where  ?condition?   gjcy = '1' and gjtg_time is not null and gjfx_min >= to_date('?start?' || ' 00:00:00', 'yyyy-MM-dd hh24:mi:ss') and gjfx_min <=  to_date('?end?' || ' 23:59:59', 'yyyy-MM-dd hh24:mi:ss')  group by to_char(gjfx_min, 'yyyy-mm-dd')"
+  c5_bar_line_e: "select ltrim(substr(to_char(gjfx_min, 'yyyy-mm-dd'), 9, 2), '0') as day, avg(gjtg_time) as time, 'TG' as type from all_node_calc_time_mh where ?condition?  gjcy = '0' and  gjtg_time is not null and gjfx_min >= to_date('?start?' || ' 00:00:00', 'yyyy-MM-dd hh24:mi:ss') and gjfx_min <= to_date('?end?' || ' 23:59:59', 'yyyy-MM-dd hh24:mi:ss') group by to_char(gjfx_min, 'yyyy-mm-dd') union select ltrim(substr(to_char(gjfx_min, 'yyyy-mm-dd'), 9, 2), '0') as day, avg(gjtg_time) as gjcy_time,'CY' as type from all_node_calc_time_mh where  ?condition?   gjcy = '1' and gjtg_time is not null and gjfx_min >= to_date('?start?' || ' 00:00:00', 'yyyy-MM-dd hh24:mi:ss') and gjfx_min <=  to_date('?end?' || ' 23:59:59', 'yyyy-MM-dd hh24:mi:ss')  group by to_char(gjfx_min, 'yyyy-mm-dd')"
+  #饼图 数据查询
+  c5_pie: "select * from (select count(1) as gjfx from all_node_calc_time_wt tm where ?condition? tm.gjcy = '0' and tm.gjfx_max >= to_date('?start?'||' 00:00:00','yyyy-MM-dd hh24:mi:ss') and tm.gjfx_max <= to_date('?end?'||' 23:59:59','yyyy-MM-dd hh24:mi:ss') ) a,(select count(1)  as gjcy from all_node_calc_time_wt tm where ?condition? tm.gjcy = '1' and tm.gjfx_max >= to_date('?start?'||' 00:00:00','yyyy-MM-dd hh24:mi:ss') and tm.gjfx_max <= to_date('?end?'||' 23:59:59','yyyy-MM-dd hh24:mi:ss') ) b "
+  c5_pie_e: "select * from (select count(1) as gjfx from all_node_calc_time_mh tm where ?condition? tm.gjcy = '0' and tm.gjfx_max >= to_date('?start?'||' 00:00:00','yyyy-MM-dd hh24:mi:ss') and tm.gjfx_max <= to_date('?end?'||' 23:59:59','yyyy-MM-dd hh24:mi:ss') ) a,(select count(1)  as gjcy from all_node_calc_time_mh tm where ?condition? tm.gjcy = '1' and tm.gjfx_max >= to_date('?start?'||' 00:00:00','yyyy-MM-dd hh24:mi:ss') and tm.gjfx_max <= to_date('?end?'||' 23:59:59','yyyy-MM-dd hh24:mi:ss') ) b "
+
+  #柱状图、表格1 数据查询
+  c6_bartable1: "select * from (select ebc_name || '-' || to_char(xdzf_min, 'yyyy') as company,round(avg(all_time) / 60) as all_time_avg, count(1) as total from all_node_calc_time_wt where ?condition? all_time is not null and xdzf_min is not null group by ebc_name || '-' || to_char(xdzf_min, 'yyyy') order by all_time_avg asc) where rownum < 6"
+  c6_bartable1_e: "select * from (select cbe_name || '-' || to_char(xdzf_min, 'yyyy') as company,round(avg(all_time) / 60) as all_time_avg, count(1) as total from all_node_calc_time_mh where ?condition? all_time is not null and xdzf_min is not null group by cbe_name || '-' || to_char(xdzf_min, 'yyyy') order by all_time_avg asc) where rownum < 6"
+  #柱状图、表格2 数据查询
+  c6_bartable2: "select * from (select ebc_name || '-' || to_char(xdzf_min, 'yyyy') as company,round(avg(all_time) / 60) as all_time_avg,count(1) as total from all_node_calc_time_wt where ?condition? all_time is not null and xdzf_min is not null group by ebc_name || '-' || to_char(xdzf_min, 'yyyy') order by all_time_avg desc) where rownum < 6"
+  c6_bartable2_e: "select * from (select cbe_name || '-' || to_char(xdzf_min, 'yyyy') as company,round(avg(all_time) / 60) as all_time_avg,count(1) as total from all_node_calc_time_mh where ?condition? all_time is not null and xdzf_min is not null group by cbe_name || '-' || to_char(xdzf_min, 'yyyy') order by all_time_avg desc) where rownum < 6"
+  #查询表格 数据查询
+  c6_query: "select to_char(xdzf_min, 'yyyy')  || '-' || ebc_name as company, round(avg(all_time) / 60) as all_time_avg,count(1) as total from all_node_calc_time_wt where ?condition? ebc_name like '?1%' and all_time is not null and xdzf_min is not null group by to_char(xdzf_min, 'yyyy')  || '-' || ebc_name order by company desc "
+  c6_query_e: "select to_char(xdzf_min, 'yyyy')  || '-' || cbe_name as company, round(avg(all_time) / 60) as all_time_avg,count(1) as total from all_node_calc_time_mh where ?condition? cbe_name like '?1%' and all_time is not null and xdzf_min is not null group by to_char(xdzf_min, 'yyyy')  || '-' || cbe_name order by company desc "
+
+  #柱状图1、饼图1
+  c7_barpie: "select to_char(xdzf_min, 'dd') as day_number, round(avg(round(abs(all_time/60)))) as zone_time, round(avg(all_time) / 60) as all_time, round(avg(gjwl_time) / 60) as gjwl_time, round(avg(qysb_time) / 60) as qysb_time, round(avg(hgtg_time) / 60) as hgtg_time, round(avg(gjtg_time) / 60) as gjtg_time, round(avg(cyfj_time) / 60) as cyfj_time, round(avg(shcq_time) / 60) as shcq_time, round(avg(gnwl_time) / 60) as gnwl_time from all_node_calc_time_wt where ?condition? xdzf_min >= ?start? and xdzf_min <= ?end? group by to_char(xdzf_min, 'dd') order by day_number "
+  c7_barpie_e: "select to_char(xdzf_min, 'dd') as day_number, round(avg(round(abs(zjcg_time/60)))) as zjcg_time, round(avg(round(abs(dssb_time/60)))) as dssb_time, round(avg(round(abs(all_time/60)))) as zone_time, round(avg(all_time) / 60) as all_time, round(avg(qysb_time) / 60) as qysb_time, round(avg(hgtg_time) / 60) as hgtg_time, round(avg(gjtg_time) / 60) as gjtg_time, round(avg(cyfj_time) / 60) as cyfj_time from all_node_calc_time_mh where ?condition? xdzf_min >= ?start? and xdzf_min <= ?end? group by to_char(xdzf_min, 'dd') order by day_number "
+  #柱状图2、饼图2
+  c7_tablepie: "select (select count(1) as total from (select abs(round((all_time) /60/60)) as zone_time from all_node_calc_time_wt where ?condition? xdzf_min >= ?start? and xdzf_min <= ?end?) where zone_time < 24) as less24, (select count(1) as total from (select abs(round((all_time)/60/60)) as zone_time from all_node_calc_time_wt where  ?condition? xdzf_min >= ?start? and xdzf_min <= ?end?) where zone_time > 24 and zone_time < 48) as less48, (select count(1) as total from (select abs(round((all_time)/60/60)) as zone_time from all_node_calc_time_wt where ?condition? xdzf_min >= ?start? and xdzf_min <= ?end?) where zone_time > 48 and zone_time < 72) as less72, (select count(1) as total from (select abs(round((all_time) /60/60)) as zone_time from all_node_calc_time_wt where ?condition? xdzf_min >= ?start? and xdzf_min <= ?end?) where zone_time > 72) as great72p from dual"
+  c7_tablepie_e: "select (select count(1) as total from (select abs(round((all_time) /60/60)) as zone_time from all_node_calc_time_mh where ?condition? xdzf_min >= ?start? and xdzf_min <= ?end?) where zone_time < 24) as less24, (select count(1) as total from (select abs(round((all_time)/60/60)) as zone_time from all_node_calc_time_mh where  ?condition? xdzf_min >= ?start? and xdzf_min <= ?end?) where zone_time > 24 and zone_time < 48) as less48, (select count(1) as total from (select abs(round((all_time)/60/60)) as zone_time from all_node_calc_time_mh where ?condition? xdzf_min >= ?start? and xdzf_min <= ?end?) where zone_time > 48 and zone_time < 72) as less72, (select count(1) as total from (select abs(round((all_time) /60/60)) as zone_time from all_node_calc_time_mh where ?condition? xdzf_min >= ?start? and xdzf_min <= ?end?) where zone_time > 72) as great72p from dual"
+
+  #柱状图、表格
+  c8_bartable: "select (select count(1) from all_node_calc_time_wt where ?condition? all_time > ?qhj? and xdzf_min >=?start? and xdzf_min <= ?end? ) as all_time,(select count(1) from all_node_calc_time_wt where ?condition? gjwl_time > ?gjwl? and xdzf_min >= ?start? and xdzf_min <= ?end?)  as gjwl_time,(select count(1) from all_node_calc_time_wt where ?condition? qysb_time > ?qysb? and xdzf_min >= ?start? and xdzf_min <= ?end?)  as qysb_time,(select count(1) from all_node_calc_time_wt where ?condition? hgtg_time > ?hgfx? and xdzf_min >= ?start? and xdzf_min <= ?end?)  as hgtg_time,(select count(1) from all_node_calc_time_wt where ?condition? gjtg_time > ?gjfx? and xdzf_min >= ?start? and xdzf_min <= ?end?)  as gjtg_time,(select count(1) from all_node_calc_time_wt where ?condition? cyfj_time > ?cyfj? and xdzf_min >= ?start? and xdzf_min <= ?end?)  as cyfj_time,(select count(1) from all_node_calc_time_wt where ?condition? shcq_time > ?hfcq? and xdzf_min >= ?start? and xdzf_min <= ?end?)  as shcq_time,(select count(1) from all_node_calc_time_wt where ?condition? gnwl_time > ?gnwl? and xdzf_min >= ?start? and xdzf_min <= ?end?)  as gnwl_time,(select count(1) from all_node_calc_time_wt where ?condition? xdzf_min>= ?start? and xdzf_min <= ?end?) as total from dual"
+  c8_bartable_e: "select (select count(1) from all_node_calc_time_mh where ?condition? all_time > ?qhj? and xdzf_min >= ?start? and xdzf_min <= ?end?) as all_time, (select count(1) from all_node_calc_time_mh where ?condition? dssb_time > ?dssb? and xdzf_min >= ?start? and xdzf_min <= ?end?) as dssb_time, (select count(1) from all_node_calc_time_mh where ?condition? qysb_time > ?qysb? and xdzf_min >= ?start? and xdzf_min <= ?end?) as qysb_time, (select count(1) from all_node_calc_time_mh where ?condition? hgtg_time > ?hgfx? and xdzf_min >= ?start? and xdzf_min <= ?end?) as hgtg_time, (select count(1) from all_node_calc_time_mh where ?condition? gjtg_time > ?gjfx? and xdzf_min >= ?start? and xdzf_min <= ?end?) as gjtg_time, (select count(1) from all_node_calc_time_mh where ?condition? cyfj_time > ?cyfj? and xdzf_min >= ?start? and xdzf_min <= ?end?) as cyfj_time, (select count(1) from all_node_calc_time_mh t where ?condition? t.zjcg_time > ?zjcg? and xdzf_min >= ?start? and xdzf_min <= ?end?) as zjcg_time, (select count(1) from all_node_calc_time_mh where ?condition? xdzf_min >= ?start? and xdzf_min <= ?end?) as total from dual "
+  #详情表格
+  c8_seetable: "select * from all_node_calc_time_wt where ?condition? rownum<1001 and ?1 > ?unknown? and xdzf_min >= ?start? and xdzf_min <= ?end? order by ?1 desc"
+  c8_seetable_e: "select * from all_node_calc_time_mh where ?condition? rownum<1001 and ?1 > ?unknown? and xdzf_min >= ?start? and xdzf_min <= ?end? order by ?1 desc"
+
+
+  #柱状图、柱线图、表格
+  c17_barlinetable: "select ltrim(to_char(app_time,'mm'),'0') as key,sum(total_price) as sum,count(1) as count,avg(total_price) as avg from order_info where ?condition? app_time >= ?start? and app_time <= ?end? group by to_char(app_time,'mm') order by to_char(app_time,'mm')"
+  c17_barlinetable_e: "select ltrim(to_char(stime,'mm'),'0') as key,sum(total_price) as sum,count(1) as count,avg(total_price) as avg from order_info where ie_type='E' and ie_port='4604' and customs_code='4604' and stime >= ?start? and stime <= ?end? group by to_char(stime,'mm') order by to_char(stime,'mm')"
+
+  #柱线图、饼图、表格(进口)
+  c18_barlinepie_i: "select * from (select o.country as country,sum(o.total_price) as total_price ,count(1) as order_count from order_info o where ?condition?  o.app_time >= ?start? and o.app_time <= ?end? group by o.country order by sum(o.total_price) desc) where rownum <=10"
+  #柱线图、饼图、表格(出口)
+  c18_barlinepie_e: "select * from (select o.country as country,sum(o.total_price) as total_price ,count(1) as order_count from order_info o where ie_type='E' and ie_port='4604' and customs_code='4604' and o.stime >= ?start? and o.stime <= ?end? group by o.country order by sum(o.total_price) desc) where rownum <=10"
+  #表格国家数据(进口)
+  c18_tabledata_i: "select ltrim(to_char(o.app_time,'mm'),'0') as key ,sum(o.total_price) as total, count(1) as count,o.country from order_info o where ?condition? country in(?1) and app_time >= ?start? and app_time <= ?end? group by to_char(o.app_time,'mm'),o.country order by sum(o.total_price) desc"
+  #表格国家数据(出口)
+  c18_tabledata_e: "select ltrim(to_char(o.stime,'mm'),'0') as key ,sum(o.total_price) as total, count(1) as count,o.country from order_info o where ?condition? country in(?1) and stime >= ?start? and stime <= ?end? group by to_char(o.stime,'mm'),o.country order by sum(o.total_price) desc"
+  #表格国家总数据(进口)
+  c18_tablesum_i: "select ltrim(to_char(o.app_time,'mm'),'0') as key,sum(o.total_price) as all_total, count(1) as all_count from order_info o where ?condition? app_time >= ?start? and app_time<= ?end?  group by to_char(o.app_time,'mm') order by sum(o.total_price) desc"
+  #表格国家总数据(出口)
+  c18_tablesum_e: "select ltrim(to_char(o.stime,'mm'),'0') as key,sum(o.total_price) as all_total, count(1) as all_count from order_info o where ?condition? stime >= ?start? and stime<= ?end?  group by to_char(o.stime,'mm') order by sum(o.total_price) desc"
+
+
+  #柱线图、饼图(进口)
+  c19_barlinepie_i: "select * from (select count(*) as order_count,sum(p.QTY) as goods_num,sum(t.total_price) as total_price , p.goods_type as  goods_type from order_info t,product_info p where ?condition? t.relation_no = p.relation_no and t.app_time >= ?start? and app_time <= ?end? group by p.goods_type order by sum(t.total_price) desc) a where rownum <= 10"
+  #柱线图、饼图(出口)
+  c19_barlinepie_e: "select * from (select count(*) as order_count,sum(p.QTY) as goods_num,sum(t.total_price) as total_price , p.goods_type as  goods_type from order_info t,product_info p where ie_type='E' and ie_port='4604' and customs_code='4604' and t.relation_no = p.relation_no and t.stime >= ?start? and stime <= ?end? group by p.goods_type order by sum(t.total_price) desc) a where rownum <= 10"
+
+  #柱线图、饼图、表格(进口)
+  c20_barlinepie_i: "select * from (select substr(o.coll_address, 1, 5) as province,sum(o.total_price) as total,count(1) as count from order_info o where ?condition? app_time >= ?start? and app_time <= ?end? group by substr(o.coll_address, 1, 5) order by sum(o.total_price) desc) a where rownum <= 5"
+  #柱线图、饼图、表格(出口)
+  c20_barlinepie_e: "select * from (select substr(o.coll_address, 1, 5) as province,sum(o.total_price) as total,count(1) as count from order_info o where ie_type='E' and ie_port='4604' and customs_code='4604' and stime >= ?start? and stime <= ?end? group by substr(o.coll_address, 1, 5) order by sum(o.total_price) desc) a where rownum <= 5"
+
+  #物流追踪查询
+  logistics_i: "select * from all_node_calc_time_WT where order_no='?1'"
+  logistics_e: "select * from all_node_calc_time_MH where orderno='?1'"
+
+  #阈值查询sql
+  threshold: "select l.ln_code,t.threshold*60,t.start_validity_time,t.end_validity_time,t.isopen,l.ln_name,s.st_code,s.st_name from ds_threshold t, ds_link_name l, ds_service_type s where t.stid = s.stid  and t.lnid = l.lnid and t.isopen='Y' and s.st_code= ? order by l.serial_no"
+
+  ###统计报表###
+  #报表1 进口业务量本月数量
+  report1i_month_number: "SELECT ivt.customs_code, COUNT(1) FROM ecssent.ceb2_invt_head ivt WHERE ivt.dist_status = '8' AND ivt.dist_time  >= to_date('?time?', 'yyyy-MM') AND ivt.dist_time   <  add_months(to_date('?time?' ,'yyyy-mm'),1)-1  GROUP BY ivt.customs_code"
+  #报表1 进口业务今年累计
+  report1i_year_number: "SELECT ivt.customs_code,COUNT(1)FROM ecssent.ceb2_invt_head ivt WHERE ivt.dist_status = '8' AND ivt.dist_time  >= TRUNC(to_date('?year?','yyyy'),'yyyy') AND ivt.dist_time <= add_months(to_date('?time?' ,'yyyy-mm'),1)-1 GROUP BY ivt.customs_code"
+ #报表1 进口业务本月货值
+  report1i_month_money: "SELECT year_month,currency,customs_code, SUM(total_price) FROM (SELECT ivt.customs_code,(SELECT SUM(lst.total_price)  FROM ecssent.ceb2_invt_list lst  WHERE lst.head_guid = ivt.head_guid ) total_price, to_char(ivt.dist_time,'yyyy-MM') as year_month,  ivt.currency  FROM ecssent.ceb2_invt_head ivt  WHERE ivt.dist_status = '8'  AND ivt.dist_time    >= to_date('?time?', 'yyyy-MM')  AND ivt.dist_time     <  add_months(to_date('?time?', 'yyyy-MM'), 1) - 1) GROUP BY customs_code,year_month, currency"
+ #报表1 进口业务货值今年累计
+  report1i_year_money:  "select year_month,currency,customs_code, sum(total_price) from (select ivt.customs_code,(select sum(lst.total_price) from ecssent.ceb2_invt_list lst  where lst.head_guid = ivt.head_guid  ) total_price,  to_char(ivt.dist_time,'yyyy-MM') as year_month,  ivt.currency  from ecssent.ceb2_invt_head ivt  where ivt.dist_status = '8' and ivt.dist_time  >=   TRUNC(to_date('?year?','yyyy'),'yyyy') and ivt.dist_time <  add_months(to_date('?time?' ,'yyyy-mm'),1)-1) group by customs_code,year_month,currency"
+ #报表1 出口业务单量本月数量
+  report1e_month_number: "select bill.customs_code, count(1)  from mhckdb.tb_bonded_import_bill bill where bill.last_status in ('13', '6') and  bill.release_date >= to_date('?time?', 'yyyy-MM')  and bill.release_date <  to_date('?time?', 'yyyy-MM') group by bill.customs_code"
+ #报表1 出口业务单量今年累计
+  report1e_year_number: "select bill.customs_code, count(1)  from mhckdb.tb_bonded_import_bill bill where bill.last_status in ('13', '6') and bill.release_date >=  TRUNC(to_date('?year?','yyyy'),'yyyy') and bill.release_date <=  add_months(to_date('?time?' ,'yyyy-mm'),1)-1  group by bill.customs_code"
+ #报表1 出口业务本月货值
+  report1e_month_money: "select customs_code, sum(ordersum) from (select bill.customs_code, (select sum(prd.ordersum) from mhckdb.tb_bonded_import_bill_product prd  where prd.bill_id = bill.bill_id) ordersum  from mhckdb.tb_bonded_import_bill bill where bill.last_status in ('13', '6') and bill.release_date >= to_date('?time?', 'yyyy-mm')  and bill.release_date < add_months(to_date('?time?', 'yyyy-mm'), 1) - 1)group by customs_code"
+ #报表1 出口业务货值今年累计
+  report1e_year_money: "select customs_code, sum(ordersum) from (select bill.customs_code, (select sum(prd.ordersum) from mhckdb.tb_bonded_import_bill_product prd  where prd.bill_id = bill.bill_id) ordersum  from mhckdb.tb_bonded_import_bill bill where bill.last_status in ('13', '6') and bill.release_date >= TRUNC(to_date('?year?','yyyy'),'yyyy') and bill.release_date < add_months(to_date('?time?' ,'yyyy-mm'),1)-1)group by customs_code"
+
+ #报表2进口本月交易额查询
+  report2i_month_money: "select year_month,currency,sum(total_price) as total_price from (select (select sum(lst.total_price) from ecssent.ceb2_invt_list lst where lst.head_guid = ivt.head_guid) total_price,to_char(ivt.dist_time,'yyyy-MM') as year_month,ivt.currency from ecssent.ceb2_invt_head ivt where ivt.dist_status = '8' ?condition? and ivt.dist_time >= to_date('?time?','yyyy-mm') and ivt.dist_time <= add_months(to_date('?time?' ,'yyyy-mm'),1)-1) group by year_month,currency"
+  #报表2进口年内累计交易额查询
+  report2i_year_money: "select year_month,currency,sum(total_price) as total_price from (select (select sum(lst.total_price) from ecssent.ceb2_invt_list lst where lst.head_guid = ivt.head_guid) total_price,to_char(ivt.dist_time,'yyyy-MM') as year_month,ivt.currency from ecssent.ceb2_invt_head ivt where ivt.dist_status = '8' ?condition? and ivt.dist_time >= trunc(to_date('?year?','yyyy'),'yyyy') and ivt.dist_time <= add_months(to_date('?time?' ,'yyyy-mm'),1)-1) group by year_month,currency"
+  #报表2出口本月交易额查询
+  report2e_month_money: "select year_month,currency,sum(ordersum) as total_price from (select bill.cbe_name, (select sum(prd.ordersum) from mhckdb.tb_bonded_import_bill_product prd where prd.bill_id = bill.bill_id) ordersum,to_char(bill.release_date,'yyyy-MM') as year_month,bill.currency from mhckdb.tb_bonded_import_bill bill where bill.last_status in ('13', '6')  ?condition? and bill.release_date >= to_date('?time?','yyyy-mm') and bill.release_date <= add_months(to_date('?time?' ,'yyyy-mm'),1)-1 ) group by year_month,currency"
+  #报表2出口年内累计交易额查询
+  report2e_year_money: "select year_month,currency,sum(ordersum) as total_price from (select bill.cbe_name, (select sum(prd.ordersum) from mhckdb.tb_bonded_import_bill_product prd where prd.bill_id = bill.bill_id) ordersum,to_char(bill.release_date,'yyyy-MM') as year_month,bill.currency from mhckdb.tb_bonded_import_bill bill where bill.last_status in ('13', '6')  ?condition? and bill.release_date >= trunc(to_date('?year?','yyyy'),'yyyy') and bill.release_date <= add_months(to_date('?time?' ,'yyyy-mm'),1)-1 ) group by year_month,currency"
+  #报表2进口商品(本月)交易额
+  report2i_goods_money: "select * from (select currency,g_code, sum(total_price) as total_price from (select ivt.currency,lst.g_code, sum(lst.total_price) as total_price from ecssent.ceb2_invt_head ivt left join ecssent.ceb2_invt_list lst on ivt.head_guid = lst.head_guid where ivt.dist_status = '8' ?condition? and ivt.dist_time >= to_date('?time?', 'yyyy-mm') and ivt.dist_time <= add_months(to_date('?time?', 'yyyy-mm'), 1) - 1 group by lst.g_code,ivt.currency) group by g_code,currency order by total_price desc) where rownum <= 3"
+  #报表2出口商品(本月)交易额
+  report2e_goods_money: "select * from (select currency, hscode, sum(ordersum) as total_price from (select bill.currency,prd.hscode,sum(prd.ordersum) as ordersum from mhckdb.tb_bonded_import_bill bill left join mhckdb.tb_bonded_import_bill_product prd on bill.bill_id = prd.bill_id where bill.last_status in ('13', '6') ?condition? and bill.release_date >= to_date('?time?', 'yyyy-mm') and bill.release_date <= add_months(to_date('?time?', 'yyyy-mm'), 1) - 1 group by bill.currency,prd.hscode) group by currency, hscode order by total_price desc) where rownum <= 3"
+
+  #报表3进口本月交易额查询
+  report3i_month_money: "select year_month,currency,sum(total_price) as total_price from (select (select sum(lst.total_price) from ecssent.ceb2_invt_list lst where lst.head_guid = ivt.head_guid) total_price ,to_char(ivt.dist_time,'yyyy-MM') as year_month,ivt.currency from ecssent.ceb2_invt_head ivt where ivt.dist_status = '8' and ivt.dist_time >= to_date('?time?', 'yyyy-mm') and ivt.dist_time <= add_months(to_date('?time?', 'yyyy-mm'), 1) - 1) a group by  year_month,currency"
+  #报表3进口年内累计交易额查询
+  report3i_year_money: "select year_month,currency,sum(total_price) as total_price from (select (select sum(lst.total_price) from ecssent.ceb2_invt_list lst where lst.head_guid = ivt.head_guid) total_price ,to_char(ivt.dist_time,'yyyy-MM') as year_month,ivt.currency from ecssent.ceb2_invt_head ivt where ivt.dist_status = '8' and ivt.dist_time >= trunc(to_date('?year?','yyyy'),'yyyy') and ivt.dist_time <= add_months(to_date('?time?', 'yyyy-mm'), 1) - 1) a group by  year_month,currency"
+  #报表3出口本月交易额查询
+  report3e_month_money: "select year_month,currency,sum(ordersum) as total_price from (select (select sum(prd.ordersum) from mhckdb.tb_bonded_import_bill_product prd where prd.bill_id = bill.bill_id) ordersum,to_char(bill.release_date,'yyyy-MM') as year_month,bill.currency from mhckdb.tb_bonded_import_bill bill where bill.last_status in ('13', '6') and bill.release_date >= to_date('?time?', 'yyyy-mm') and bill.release_date <= add_months(to_date('?time?', 'yyyy-mm'), 1) - 1) a group by year_month,currency"
+  #报表3出口年内累计交易额查询
+  report3e_year_money: "select year_month,currency,sum(ordersum) as total_price from (select (select sum(prd.ordersum) from mhckdb.tb_bonded_import_bill_product prd where prd.bill_id = bill.bill_id) ordersum,to_char(bill.release_date,'yyyy-MM') as year_month,bill.currency from mhckdb.tb_bonded_import_bill bill where bill.last_status in ('13', '6') and bill.release_date >= trunc(to_date('?year?','yyyy'),'yyyy') and bill.release_date <= add_months(to_date('?time?', 'yyyy-mm'), 1) - 1) a group by year_month,currency"
+
+  #报表4进口本月交易额查询
+  report4i_month_money: "select year_month,currency,sum(total_price) as total_price from (select (select sum(lst.total_price) from ecssent.ceb2_invt_list lst where lst.head_guid = ivt.head_guid) total_price,to_char(ivt.dist_time,'yyyy-MM') as year_month,ivt.currency from ecssent.ceb2_invt_head ivt where ivt.dist_status = '8' ?condition? and ivt.dist_time >= to_date('?time?','yyyy-mm') and ivt.dist_time <= add_months(to_date('?time?' ,'yyyy-mm'),1)-1) group by year_month,currency"
+  #报表4进口年内累计交易额查询
+  report4i_year_money: "select year_month,currency,sum(total_price) as total_price from (select (select sum(lst.total_price) from ecssent.ceb2_invt_list lst where lst.head_guid = ivt.head_guid) total_price,to_char(ivt.dist_time,'yyyy-MM') as year_month,ivt.currency from ecssent.ceb2_invt_head ivt where ivt.dist_status = '8' ?condition? and ivt.dist_time >= trunc(to_date('?year?','yyyy'),'yyyy') and ivt.dist_time <= add_months(to_date('?time?' ,'yyyy-mm'),1)-1) group by year_month,currency"
+  #报表4出口本月交易额查询
+  report4e_month_money: "select year_month,currency,sum(ordersum) as total_price from (select bill.cbe_name, (select sum(prd.ordersum) from mhckdb.tb_bonded_import_bill_product prd where prd.bill_id = bill.bill_id) ordersum,to_char(bill.release_date,'yyyy-MM') as year_month,bill.currency from mhckdb.tb_bonded_import_bill bill where bill.last_status in ('13', '6')  ?condition? and bill.release_date >= to_date('?time?','yyyy-mm') and bill.release_date <= add_months(to_date('?time?' ,'yyyy-mm'),1)-1 ) group by year_month,currency"
+  #报表4出口年内累计交易额查询
+  report4e_year_money: "select year_month,currency,sum(ordersum) as total_price from (select bill.cbe_name, (select sum(prd.ordersum) from mhckdb.tb_bonded_import_bill_product prd where prd.bill_id = bill.bill_id) ordersum,to_char(bill.release_date,'yyyy-MM') as year_month,bill.currency from mhckdb.tb_bonded_import_bill bill where bill.last_status in ('13', '6')  ?condition? and bill.release_date >= trunc(to_date('?year?','yyyy'),'yyyy') and bill.release_date <= add_months(to_date('?time?' ,'yyyy-mm'),1)-1 ) group by year_month,currency"
+  #报表4进口商品(本月)交易额
+  report4i_goods_money: "select * from (select currency,g_code, sum(total_price) as total_price from (select ivt.currency,lst.g_code, sum(lst.total_price) as total_price from ecssent.ceb2_invt_head ivt left join ecssent.ceb2_invt_list lst on ivt.head_guid = lst.head_guid where ivt.dist_status = '8' ?condition? and ivt.dist_time >= to_date('?time?', 'yyyy-mm') and ivt.dist_time <= add_months(to_date('?time?', 'yyyy-mm'), 1) - 1 group by lst.g_code,ivt.currency) group by g_code,currency order by total_price desc) where rownum <= 3"
+  #报表4出口商品(本月)交易额
+  report4e_goods_money: "select * from (select currency, hscode, sum(ordersum) as total_price from (select bill.currency,prd.hscode,sum(prd.ordersum) as ordersum from mhckdb.tb_bonded_import_bill bill left join mhckdb.tb_bonded_import_bill_product prd on bill.bill_id = prd.bill_id where bill.last_status in ('13', '6') ?condition? and bill.release_date >= to_date('?time?', 'yyyy-mm') and bill.release_date <= add_months(to_date('?time?', 'yyyy-mm'), 1) - 1 group by bill.currency,prd.hscode) group by currency, hscode order by total_price desc) where rownum <= 3"
+
+  #汇率查询1（判断可用）
+  currencyRate1: "select rate from ds_exrate where year=? and month=? order by create_time"
+  #汇率查询2（换算）
+  currencyRate2: "select year,month,rateid,code,rate from ds_exrate ex,ds_exrate_info ei where ex.rid=ei.rid and year=? and month=? and rateid = ?"
+  #汇率查询3（人民币换算）
+  currencyRate3: "select year,month,rateid,code,rate from ds_exrate ex,ds_exrate_info ei where ex.rid=ei.rid and year=? and month=? and code = 'RMB'"

@@ -1,0 +1,79 @@
+spring:
+  thymeleaf:
+    cache: false
+  aop:
+    auto: true
+    proxy-target-class: false
+  profiles:
+#   active: sql,sign
+    active: mysql,mysql-sign
+  main:
+    banner-mode: 0
+logging:
+  level:
+    org.springframework: info
+    com.datasquid: debug
+    com.datasquid.web.filter: info
+  file: logs/websquid.log
+webConfig:
+  systemName: 效能监测系统
+  ftlFolder: "e:\\template"
+  outFolder1: "e:\\report1"
+  outFolder2: "e:\\report2"
+  outFolder3: "e:\\report3"
+  outFolder4: "e:\\report4"
+  ftl1Name: "excel1.ftl"
+  ftl2Name: "excel2.ftl"
+  ftl3Name: "excel3.ftl"
+  # 大屏数据更新刷新时间
+  refreshTime: 20
+
+sqlSources:
+  template:
+    filters: stat,slf4j
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    connectionProperties: "druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000"
+    driverClassName: com.mysql.cj.jdbc.Driver
+  items:
+    - name: datasquid
+      url: jdbc:mysql://10.100.130.156:3306/datasquid?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&useSSL=false&characterEncoding=utf8
+      username: datasquid
+      password: datasquid
+    - name: testSQL
+      url: jdbc:mysql://10.100.130.156:3306/datasquid?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&useSSL=false&characterEncoding=utf8
+      username: datasquid
+      password: datasquid
+  default-source: datasquid
+# NoSQL 数据库配置(Redis)
+nosqlSource:
+  host: 10.100.130.156
+  port: 6379
+  pool-config:
+    max-total: 100
+server:
+  # webSocket 链接ip
+  ip: 127.0.0.1
+  port: 8000
+  session:
+    timeout: 7200
+  ssl:
+    enabled: false
+    key-store: cert/kstore2
+    key-password: alacky
+    key-store-password: alacky
+    key-alias: jetty
+  compression:
+    enabled: true
+management:
+  address: 127.0.0.1

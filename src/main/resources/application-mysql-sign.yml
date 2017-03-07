@@ -1,0 +1,85 @@
+
+signMap:
+  #进出口业务类型附加条件在 SQL中标识
+  CONDITION: "?condition?"
+  #关区标识 如：in('4612','4604','4606','4605','4620')
+  CUSTOMS: "?customs?"
+  #不确定未知条件
+  UNKNOWN: "?unknown?"
+  #开始时间在 SQL中标识
+  START: "?start?"
+  #结束时间在 SQL中标识
+  END: "?end?"
+  #全环节 用时
+  QHJ: "?qhj?"
+  #国际物流 用时
+  GJWL: "?gjwl?"
+  #企业申报 用时
+  QYSB: "?qysb?"
+  #海关放行 用时
+  HGFX: "?hgfx?"
+  #国检放行 用时
+  GJFX: "?gjfx?"
+  #查验分拣 用时
+  CYFJ: "?cyfj?"
+  #核放出区 用时
+  HFCQ: "?hfcq?"
+  #国内物流 用时
+  GNWL: "?gnwl?"
+  #电商申报 用时
+  DSSB: "?dssb?"
+  #装机出港 用时
+  ZJCG: "?zjcg?"
+  #默认阈值（72小时） 单位秒
+  DF_THRESHOLD: "259200"
+  #省市地区(消费者地区统计使用)
+  PROVINCE: "台湾,河北,山西,内蒙古,辽宁,吉林,黑龙江,江苏,浙江,安徽,福建,江西,山东,河南,湖北,湖南,广东,广西,海南,四川,贵州,云南,西藏,陕西,甘肃,青海,宁夏,新疆,北京,天津,上海,重庆,香港,澳门"
+  GOODSTYPE: "美妆个护,食品保健,母婴用品,皮包饰品,服饰鞋帽,数码家电,生活用具,卫生清洁"
+  美妆个护: "33"
+  食品保健: "19"
+  母婴用品: "19011010"
+  皮包饰品: "42"
+  服饰鞋帽: "62"
+  数码家电: "84"
+  生活用具: "64"
+  卫生清洁: "34"
+
+  #当前年第一天 sql
+  CURRENT_YEAR: "trunc(sysdate,'yyyy')"
+  CURRENT_YEAR_MYSQL: "date_format(current_date,'%Y')"
+  #当前年最后一天 sql
+  CURRENT_YEAR_LAST: "add_months(trunc(sysdate, 'yyyy'), 12) - 1"
+  CURRENT_YEAR_LAST_MYSQL: "CONCAT(DATE_FORMAT(CURRENT_DATE,'%Y'), '-12-31')"
+  #当前月时间 sql
+  CURRENT_MONTH: "to_date(to_char(sysdate,'yyyy-MM'), 'yyyy-MM')"
+  CURRENT_MONTH_MYSQL: "date_format(current_date,'%Y-%m')"
+  #当前日时间 sql
+  CURRENT_DAY: "to_date(to_char(sysdate,'yyyy-MM-dd'), 'yyyy-MM-dd')"
+  CURRENT_DAY_MYSQL: "date_format(current_date,'%Y-%m-%d')"
+
+  #空港直邮-效能-进口
+  KGZY-XN-I: " customs_code='4604' and "
+  #空港直邮-统计-进口
+  KGZY-TJ-I: "ie_type='I' and customs_code='4604' and"
+
+  #陆港直邮-效能-进口
+  LGZY-XN-I: " port_code='4606' and customs_code='4606' and"
+  #陆港直邮-统计-进口
+  LGZY-TJ-I: "ie_type='I' and ie_port='4606' and customs_code='4606' and"
+
+  #空港出口-效能-出口
+  KGCK-XN-E: " customs_code='4604' and"
+  #空港出口-统计-出口
+  KGCK-TJ-E: "ie_type='E' and customs_code='4604' and"
+
+  #空港保税-效能-进口
+  KGBS-XN-I: " customs_code='4612' and"
+  #空港保税-统计-进口
+  KGBS-TJ-I: "ie_type='I' and customs_code='4612' and"
+
+  #陆港转关-效能-进口
+  LGZG-XN-I: " port_code='4604' and customs_code='4606' and"
+  #陆港转关-统计-进口
+  LGZG-TJ-I: "ie_type='I' and ie_port='4604' and customs_code='4606' and"
+
+

@@ -1,0 +1,54 @@
+<form id="ws-script" role="form">
+    <div class="form-group form-inline">
+        <div class="input-group">
+            <span class="input-group-addon">类型</span>
+            <div class="radio form-control">
+                <label class="hide">
+                    <input type="radio" name="type" value="SQL" data-toggle="tooltip-disabled" title="SQL脚本"/>
+                    SQL</label>
+                <label><input type="radio" name="type" value="JS" data-toggle="tooltip-disabled" title="Javascript脚本"
+                              checked="checked"/>
+                    JS</label>
+            </div>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">脚本名称</span>
+            <input type="text" class="form-control" id="scriptname" name="name" placeholder="脚本名称"/>
+            <input type="hidden" name="sid" maxlength="20"/>
+        </div>
+        <div class="input-group">
+
+            <button class="btn btn-sm add" type="button" data-toggle="tooltip-disabled" title="添加结果表定义"
+                    onclick="webSquid.pageModule('task/script').resultAdd(this);"><i
+                    class="fa fa-plus"></i></button>
+        </div>
+    </div>
+    <div class="form-group result">
+        <div class="row form-inline">
+            <div class="col-lg-12">
+                <input type="text" class="form-control" name="result_name" placeholder="结果表名称"
+                       data-toggle="tooltip-disabled" title="可以在脚本中直接通过此名称操作数据表" maxlength="30"/>
+                <button class="btn btn-sm remove" type="button" style=""
+                        onclick="webSquid.pageModule('task/script').resultRemove(this);"><i
+                        class="fa fa-minus"></i></button>
+            </div>
+        </div>
+        <textarea class="form-control" name="result_code" rows="2"
+                  placeholder="结果表定义代码，描述列定义如：tid INT(10) UNSIGNED NOT NULL, name VARCHAR(50) NOT NULL DEFAULT '''' "
+                  data-toggle="tooltip-disabled" title="用于创建结果表结构的SQL"></textarea>
+
+    </div>
+    <div class="form-group code">
+        <textarea class="form-control" name="code" id="code" rows="13" placeholder="脚本代码"></textarea>
+    </div>
+    <div class="form-group pull-right">
+        <button class="btn btn-sm btn-success" type="button" id="ws-property-apply" data-toggle="tooltip-disabled"
+                title="提交保存">
+            <i class="fa fa-check"></i>
+        </button>
+        <button class="btn btn-sm btn-danger" type="button" id="ws-property-delete" data-toggle="tooltip-disabled"
+                title="删除">
+            <i class="fa fa-remove"></i>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <base th:href="${basePath}"/>
+    <title th:text="${pageName}"></title>
+
+    <meta th:include="fragments/resource :: head" th:remove="tag"/>
+    <script type="text/javascript">
+        var AdminLTEOptions = {
+            animationSpeed: 300,
+            sidebarExpandOnHover: true,
+            enableBoxRefresh: true,
+            enableBSToppltip: true
+        };
+    </script>
+
+</head>
+<body class="hold-transition skin-blue fixed sidebar-mini sidebar-collapse">
+<div class="wrapper">
+
+    <div th:replace="fragments/head :: header"></div>
+
+    <div th:replace="fragments/side :: sidebar"></div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper" id="content">
+        <div class="box content-header">
+            <div id="ws-nothing"></div>
+            <div class="overlay">
+                <i class="fa fa-refresh fa-spin"></i>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<!-- ./wrapper -->
+
+<div th:replace="fragments/resource :: scripts"></div>
+<div th:replace="fragments/dialogs :: dialog-alert"></div>
+<div th:replace="fragments/dialogs :: dialog-confirm"></div>
+<div th:replace="fragments/dialogs :: dialog-popup"></div>
+
+
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    webSquid.user = /*[[${user}]]*/;
+    webSquid.serverIp =/*[[${serverIp}]]*/;
+    webSquid.serverPort =/*[[${serverPort}]]*/;
+
+    setInterval("sessionTimeOut()", 1800000);
+
+    function sessionTimeOut() {
+        console.log("系统进行session存活检测");
+        $.get("/admin/", {p: 'admin'}, function (data) {
+            console.log("session存活检测成功");
+        });
+    }
+
+    /*]]>*/
+    var socket = null;
+    //判断当前浏览器是否支持WebSocket
+    if ('WebSocket' in window) {
+        var protocol = document.location.protocol == "https:" ? "wss" : "ws";
+        try {
+            socket = new WebSocket(protocol + "://" + webSquid.serverIp + ":" + webSquid.serverPort + "/websocket");
+        } catch (e) {
+            console.log('WebSocket连接发生错误', e);
+        }
+    } else {
+        console.log('该浏览器不支持WebSocket')
+    }
+
+    //连接发生错误的回调方法
+    socket.onerror = function () {
+        console.log("WebSocket连接错误!");
+    };
+
+    //连接成功建立的回调方法
+    socket.onopen = function (event) {
+        console.log("WebSocket连接成功!" + event);
+        setInterval("send(0)", 60000);
+    };
+
+    //接收到消息的回调方法
+    socket.onmessage = function (event) {
+        console.log("接到推送信息：" + event.data);
+        if (typeof(webSquid.currentPage) != "undefined") {
+            console.log("重新初始化页面");
+            webSquid.currentPage.init();
+        }
+
+    };
+
+    //连接关闭的回调方法
+    socket.onclose = function () {
+        console.log("WebSocket连接关闭，准备重连!");
+        var protocol = document.location.protocol == "https:" ? "wss" : "ws";
+        try {
+            socket = new WebSocket(protocol + "://" + webSquid.serverIp + ":" + webSquid.serverPort + "/websocket");
+        } catch (e) {
+            console.log('WebSocket连接发生错误', e);
+        }
+    };
+
+    //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+    window.onbeforeunload = function () {
+        console.log("WebSocket窗口关闭!");
+        closeWebSocket();
+    };
+
+    //关闭连接
+    closeWebSocket = function () {
+        socket.close();
+    };
+
+    //发送消息
+    send = function (msg) {
+        socket.send(msg);
+    }
+
+</script>
+
+</body>
+</html>
